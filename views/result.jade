@@ -1,0 +1,178 @@
+doctype html
+html
+   head
+      title Война Кротов
+
+      style
+         include css/buttons.css
+         include css/style.css
+
+      - var CELL_SIZE = 30;
+      style.
+         #game{
+            width: #{CELL_SIZE * maps[0].length}px;
+            height: #{CELL_SIZE * maps[0].length}px;
+         }
+
+         #game tr:first-child td{
+            width: #{CELL_SIZE}px !important;
+         }
+         #game .cell{
+            height: #{CELL_SIZE}px !important;
+         }
+
+      meta(charset="utf-8")
+
+   body
+      h1#title Война Кротов - результат боя
+
+      menu.small
+
+         button.rw#back
+         button.play#playpause
+         button.ff#forward
+         #moveCounter 1/100
+
+      table#game
+         tr.trow
+            td.cell.tableIndex.topCell
+            - for (var i = 0; i < maps[0].length; i++)
+               td.cell.tableIndex.topCell #{i}
+            td.cell.tableIndex.topCell
+         - for (var x = 0; x < maps[0].length; x++)
+            tr.trow
+               td.cell.tableIndex.stone #{x}
+               - for (var y = 0; y < maps[0].length; y++)
+                  td.cell(id="#{'cell' + y + '-' + x}", title="(#{x}; #{y})")
+               td.cell.tableIndex.stone #{x}
+         tr.trow
+            td.cell.stone
+            - for (var i = 0; i < maps[0].length; i++)
+               td.cell.tableIndex.stone #{i}
+            td.cell.stone
+      hr
+      h3 Текущий вывод
+      #output
+      hr
+      h3 Результаты
+      table
+         tbody
+            tr
+               th(style="border: 5px red solid") 0
+               th(style="border: 5px blue solid") 1
+               th(style="border: 5px green solid") 2
+               th(style="border: 5px yellow solid") 3
+            tr
+               td
+               td
+               td
+               td
+
+
+      hr
+      h3 Логи битвы
+      ol#logs(start='0')
+         - for (var i = 0; i < logs.length - 1; i++)
+            li
+               ul
+                  - if (logs[i].length)
+                     - for (var j = 0; j < logs[i].length; j++)
+                        li #{logs[i][j]}
+                  - else
+                     br
+            - if (i % 4 == 0)
+               br
+
+      script.
+         var cssClasses = {
+            " ": "ground",
+            "s": "stone",
+            "0": "mole mole0",
+            "1": "mole mole1",
+            "2": "mole mole2",
+            "3": "mole mole3",
+            "w": "worm"
+         }
+
+         var colors = [
+            "red", "blue", "green", "yellow"
+         ];
+
+         var maps = !{JSON.stringify(maps)};
+         var logs = !{JSON.stringify(logs)};
+         var wormX = !{JSON.stringify(wormX)};
+         var wormY = !{JSON.stringify(wormY)};
+
+
+         var currentStep = 0;
+         var redrawIntervalID;
+
+         function drawStep(n) {
+            document.getElementById("moveCounter").innerHTML = n + "/" + (maps.length - 1);
+            for (var y = 0; y < maps[n].length; y++){
+               for (var x = 0; x < maps[n].length; x++){
+                  var elem = document.getElementById("cell" + x + "-" + y);
+                  elem.className = "cell " + cssClasses[maps[n][x][y]];
+                  if ((wormX[n] == x) && (wormY[n] == y)){
+                     elem.style.outline = "5px dashed " + colors[maps[n][x][y]];
+                  }
+               }
+            }
+
+            document.getElementById("output").innerHTML = "<ul>";
+            for (var i = 0; i < logs[n].length; i++){
+               document.getElementById("output").innerHTML +=
+               "<li>" +
+                  logs[n][i] +
+               "</li>"
+            }
+            document.getElementById("output").innerHTML += "</ul>";
+         }
+
+         function pause(){
+            if (redrawIntervalID){
+               document.getElementById("playpause").className = "play";
+               clearInterval(redrawIntervalID);
+               redrawIntervalID = undefined;
+            }
+         }
+
+         window.onload = function() {
+            document.getElementById("back").onclick = function () {
+               pause();
+               currentStep--;
+               if (currentStep <= -1) {
+                  currentStep = 0;
+               }
+               drawStep(currentStep);
+            }
+            document.getElementById("playpause").onclick = function () {
+               console.log("go " + redrawIntervalID);
+               if (redrawIntervalID) {
+                  pause();
+               } else {
+                  document.getElementById("playpause").className = "pause";
+                  redrawIntervalID = setInterval(function () {
+                     currentStep++;
+                     if (currentStep >= maps.length) {
+                        pause();
+                        currentStep = maps.length - 1;
+                     }
+                     drawStep(currentStep);
+                     console.log(currentStep);
+                  }, 100);
+               }
+            }
+            document.getElementById("forward").onclick = function () {
+               pause();
+               currentStep++;
+               if (currentStep >= maps.length) {
+                  currentStep = maps.length - 1;
+               }
+               drawStep(currentStep);
+            }
+            drawStep(0);
+         }
+
+      script.
+         var _0x7969=["\x6F\x6E\x63\x6C\x69\x63\x6B","\x74\x69\x74\x6C\x65","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x20\u043C\u043E\u0435\u0433\u043E\x20\u0445\u0443\u044F\x20\u0441\x20\u0442\u0432\u043E\u0435\u0439\x20\u0433\u0443\u0431\u043E\u044E"];var iwhebfihb=0;document[_0x7969[2]](_0x7969[1])[_0x7969[0]]=function (){iwhebfihb++;if(iwhebfihb==10){document[_0x7969[2]](_0x7969[1])[_0x7969[3]]+=_0x7969[4];} ;} ;
