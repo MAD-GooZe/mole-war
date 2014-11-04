@@ -24,7 +24,18 @@ html
       meta(charset="utf-8")
 
    body
-      h1#title Война Кротов - результат боя
+      h2#title.centered Война Кротов - результат боя
+      table(style="border: 1px solid black; margin-left:auto; margin-right:auto; margin-bottom: 40px")
+         tbody
+            tr
+               th(style="border: 5px red solid; width: 30px") 0
+               th(style="border: 5px blue solid; width: 30px") 1
+               th(style="border: 5px green solid; width: 30px") 2
+               th(style="border: 5px yellow solid; width: 30px") 3
+            tr
+               - for (var i in results)
+                  th #{results[i]}
+
 
       menu.small
 
@@ -43,7 +54,7 @@ html
             tr.trow
                td.cell.tableIndex.stone #{x}
                - for (var y = 0; y < maps[0].length; y++)
-                  td.cell(id="#{'cell' + y + '-' + x}", title="(#{x}; #{y})")
+                  td.cell(id="#{'cell' + y + '-' + x}", title="(#{y}; #{x})")
                td.cell.tableIndex.stone #{x}
          tr.trow
             td.cell.stone
@@ -53,22 +64,6 @@ html
       hr
       h3 Текущий вывод
       #output
-      hr
-      h3 Результаты
-      table
-         tbody
-            tr
-               th(style="border: 5px red solid") 0
-               th(style="border: 5px blue solid") 1
-               th(style="border: 5px green solid") 2
-               th(style="border: 5px yellow solid") 3
-            tr
-               td
-               td
-               td
-               td
-
-
       hr
       h3 Логи битвы
       ol#logs(start='0')
@@ -112,9 +107,10 @@ html
             for (var y = 0; y < maps[n].length; y++){
                for (var x = 0; x < maps[n].length; x++){
                   var elem = document.getElementById("cell" + x + "-" + y);
+                  elem.style.outline = "";
                   elem.className = "cell " + cssClasses[maps[n][x][y]];
                   if ((wormX[n] == x) && (wormY[n] == y)){
-                     elem.style.outline = "5px dashed " + colors[maps[n][x][y]];
+                     elem.style.outline = "5px dotted " + colors[maps[n][x][y]];
                   }
                }
             }

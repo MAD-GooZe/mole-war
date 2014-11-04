@@ -11,6 +11,8 @@ module.exports = function(strategyCode, x, y, timeout){
     self.active = true;
     self.wormEaten = 0;
     self.memory = {};
+    self.sandbox = new Sandbox();
+    self.sandbox.options.timeout = timeout || 1000;
 
     self.run = function(parameters, callback){
         var processConsoleForMemory = function(result){
@@ -22,12 +24,10 @@ module.exports = function(strategyCode, x, y, timeout){
             callback(result);
         };
 
-        self.sandbox = new Sandbox();
-        self.sandbox.options.timeout = timeout || 10000;
-
         if (parameters.active){
-            self.sandbox.run(strategyCode, processConsoleForMemory);
-            self.sandbox.postMessage(JSON.stringify(parameters));
+
+            var str = JSON.stringify(parameters);
+            self.sandbox.run(strategyCode + "; _run('" + str + "')", processConsoleForMemory);
         } else {
             callback();
         }

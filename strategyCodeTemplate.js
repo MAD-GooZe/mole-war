@@ -1,9 +1,13 @@
-onmessage = function(parameters){
+/*onmessage = function(parameters){
     var parametersObject = JSON.parse(parameters);
     run(new StrategyObject(parametersObject.map, parametersObject.worm, parametersObject.strategy, parametersObject.commands, parametersObject.memory));
     onmessage = undefined;
-};
+};*/
 
+function _run(parameters){
+    var parametersObject = JSON.parse(parameters);
+    run(new StrategyObject(parametersObject.map, parametersObject.worm, parametersObject.strategy, parametersObject.commands, parametersObject.memory));
+}
 
 function run(me){
     try {

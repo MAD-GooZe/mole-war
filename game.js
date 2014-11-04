@@ -92,7 +92,13 @@ module.exports = function(strategyFiles, maxMoves){
             maps: self.maps,
             logs: self._log,
             wormX: self.wormX,
-            wormY: self.wormY
+            wormY: self.wormY,
+            results: [
+                strategies[0].wormEaten,
+                strategies[1].wormEaten,
+                strategies[2].wormEaten,
+                strategies[3].wormEaten
+            ]
         });
         fs.writeFileSync(filename, html);
     };
@@ -213,6 +219,7 @@ module.exports = function(strategyFiles, maxMoves){
 
 
     self.play = function(gameEndCallback){
+
         self.maps.push(clone(self.map));
         async.mapSeries(range(maxMoves), function(move, moveCallback){
             console.log("Move #" + move);
@@ -228,14 +235,19 @@ module.exports = function(strategyFiles, maxMoves){
                         active: strategies[i].active
                     }, function(result){
 
+                        var nextStrategy = strategies[i];
+                        nextStrategy.id = i;
+                        nextStrategy.stringId = "mole#" + i + ": ";
+
                         if (!strategies[i].active){
                             self.log(strategies[i].stringId + " skips its turn as it is stunned");
                             strategies[i].active = true;
                         } else {
-                            var nextStrategy = strategies[i];
-                            nextStrategy.id = i;
-                            nextStrategy.stringId = "mole#" + i + ": ";
-                            runCommands(nextStrategy, result.console);
+                            if (result.result != 'null'){
+                                self.log(strategies[i].stringId + " Error: " + result.result);
+                            } else {
+                                runCommands(nextStrategy, result.console);
+                            }
                         }
 
                         self.maps.push(clone(self.map));
