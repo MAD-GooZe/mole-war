@@ -6,7 +6,10 @@ var async = require('async');
 var range = require('range');
 var Strategy = require('./strategy.js');
 
-process.argv = ["", "", "-o", "result.html", "-s", "user", "idiot", "idiot", "clever", "-r", "1", "-m", "50"];
+
+console.log(process.argv.length);
+if (process.argv.length == 2)
+    process.argv = ["", "", "-o", "result.html", "-s", "test", "idiot", "idiot", "clever", "-r", "1", "-m", "50"];
 
 var options = stdio.getopt({
     'strategies': {key: 's', args: 4, description: 'Strategies to compare (.js files)', mandatory: true},
@@ -19,7 +22,7 @@ var defaultStrategies = {
     "idiot": "./default_strategies/idiot.js",
     "idle": "./default_strategies/idle.js",
     "clever": "./default_strategies/clever.js",
-    "user": "./mole.js"
+    "test": "./test.js"
 };
 
 for (var i = 0; i < options.strategies.length; i++){
