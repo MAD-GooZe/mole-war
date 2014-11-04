@@ -9,7 +9,7 @@ var Strategy = require('./strategy.js');
 
 console.log(process.argv.length);
 if (process.argv.length == 2)
-    process.argv = ["", "", "-o", "result.html", "-s", "user", "idle", "idle", "clever", "-r", "1", "-m", "50"];
+    process.argv = ["", "", "-o", "result.html", "-s", "user", "idiot", "idiot", "clever", "-r", "1", "-m", "50"];
 
 var options = stdio.getopt({
     'strategies': {key: 's', args: 4, description: 'Strategies to compare (.js files)', mandatory: true},
