@@ -57,7 +57,7 @@ var StrategyObject = function(map, worm, strategy, strategyCommands, lastMemory)
     var whatIs = function(cellX, cellY){
         if (!map[cellX])        return "stone";
         var cellInMap =  map[cellX][cellY];
-        if (cellInMap == ' ')   return 'ground';
+        if (cellInMap === ' ')  return 'ground';
         if (!isNaN(cellInMap))  return 'mole';
         if (!cellInMap)         return 'stone';
         if (cellInMap == 's')   return 'stone';

@@ -187,31 +187,28 @@ module.exports = function(strategyFiles, maxMoves){
                 canEat = false;
                 commandMove(strategy, -1, 0);
             } else if (nextCommand == strategyCommands.right && canMove){
-                canMove = true;
-                canEat = true;
+                canMove = false;
+                canEat = false;
                 commandMove(strategy, 1,  0);
             }
 
             else if (nextCommand == strategyCommands.hitUp && canHit){
                 canHit = false;
-                canEat = false;
                 commandHit(strategy, 0, -1);
             } else if (nextCommand == strategyCommands.hitDown && canHit){
                 canHit = false;
-                canEat = false;
                 commandHit(strategy, 0,  1);
             } else if (nextCommand == strategyCommands.hitLeft && canHit){
                 canHit = false;
-                canEat = false;
                 commandHit(strategy, -1, 0);
             } else if (nextCommand == strategyCommands.hitRight && canHit){
                 canHit = false;
-                canEat = false;
                 commandHit(strategy, 1,  0);
-            } else if (nextCommand == strategyCommands.eat && canEat){
+            }
+
+            else if (nextCommand == strategyCommands.eat && canEat){
                 canEat = false;
                 canMove = false;
-                canHit = false;
                 commandEat(strategy);
             }
         }
