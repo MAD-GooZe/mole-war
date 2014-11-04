@@ -194,21 +194,26 @@ module.exports = function(strategyFiles, maxMoves){
 
             else if (nextCommand == strategyCommands.hitUp && canHit){
                 canHit = false;
+                canEat = false;
                 commandHit(strategy, 0, -1);
             } else if (nextCommand == strategyCommands.hitDown && canHit){
                 canHit = false;
+                canEat = false;
                 commandHit(strategy, 0,  1);
             } else if (nextCommand == strategyCommands.hitLeft && canHit){
                 canHit = false;
+                canEat = false;
                 commandHit(strategy, -1, 0);
             } else if (nextCommand == strategyCommands.hitRight && canHit){
                 canHit = false;
+                canEat = false;
                 commandHit(strategy, 1,  0);
             }
 
             else if (nextCommand == strategyCommands.eat && canEat){
                 canEat = false;
                 canMove = false;
+                canHit = false;
                 commandEat(strategy);
             }
         }
