@@ -6,7 +6,7 @@ var jade = require("jade");
 var strategyCommands = require('./strategyCommands.js');
 
 
-var STONE_PROBABILITY = 0.05;
+var STONE_PROBABILITY = 0.13;
 var MAP_SIZE = 16;
 var WORM_SIZE = 20;
 
