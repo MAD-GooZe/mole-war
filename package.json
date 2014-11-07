@@ -1,12 +1,11 @@
 {
   "name": "MoleGameTester",
   "description": "Testing script for a simple programming game",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "node ./MoleGameTester.js"
   },
   "dependencies": {
-    "sandbox": ">=0.8.6",
     "stdio": ">=0.2.3",
     "async": ">=0.9.0",
     "jade": ">=1.7.0"

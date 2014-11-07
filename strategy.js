@@ -1,4 +1,3 @@
-var Sandbox = require('sandbox');
 var strategyCommands = require('./strategyCommands.js');
 var strategyCodeTemplate = String(require("fs").readFileSync("./strategyCodeTemplate.js"));
 
@@ -10,26 +9,34 @@ module.exports = function(strategyCode, x, y, timeout){
     self.y = y;
     self.active = true;
     self.wormEaten = 0;
-    self.memory = {};
-    self.sandbox = new Sandbox();
-    self.sandbox.options.timeout = timeout || 1000;
+    var memory = {};
+
+    var result;
+    eval(strategyCode);
 
     self.run = function(parameters, callback){
-        var processConsoleForMemory = function(result){
-            var sandboxConsole = result.console;
-            if (sandboxConsole.length > 0){
-                self.memory = JSON.parse(sandboxConsole.pop());
-            }
 
-            callback(result);
+        parameters.memory = memory;
+        parameters.strategy = {
+            x: self.x,
+            y: self.y
         };
 
-        if (parameters.active){
-
-            var str = JSON.stringify(parameters);
-            self.sandbox.run(strategyCode + "; _run('" + str + "')", processConsoleForMemory);
+        if (self.active){
+            clearResult();
+            memory = _run(parameters);
+            callback(result);
         } else {
             callback();
         }
+    };
+
+    function clearResult(){
+        result = {result: 'null', console: []};
     }
+    var saveToLog = function (){
+        result.console.push(Array.prototype.slice.call(arguments).join(" "));
+    };
 };
+
+

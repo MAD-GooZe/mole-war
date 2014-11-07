@@ -41,8 +41,6 @@ module.exports = function(strategyFiles, maxMoves){
     self.map = generateMap(MAP_SIZE);
     self.maps = [];
     self._log = [[], []];
-    self.wormX = [];
-    self.wormY = [];
 
     self.log = function(str){
         self._log[self._log.length - 1].push(str);
@@ -66,6 +64,8 @@ module.exports = function(strategyFiles, maxMoves){
         x: Math.round(self.map.length / 2 + getRandomInt(- self.map.length / 6, self.map.length / 6)),
         y: Math.round(self.map.length / 2 + getRandomInt(- self.map.length / 6, self.map.length / 6))
     };
+    self.wormX = [self.worm.x];
+    self.wormY = [self.worm.y];
     self.map[self.worm.x][self.worm.y] = "w";
 
     var canMove = function(strategy, stepX, stepY){
@@ -230,13 +230,10 @@ module.exports = function(strategyFiles, maxMoves){
                 function(i, stepCallback){
                     strategies[i].run({
                         strategy:{x:strategies[i].x, y:strategies[i].y},
-                        map:self.map,
-                        worm:self.worm,
-                        commands: strategyCommands,
-                        memory:strategies[i].memory,
-                        active: strategies[i].active
+                        map: self.map,
+                        worm: self.worm,
+                        commands: strategyCommands
                     }, function(result){
-
                         var nextStrategy = strategies[i];
                         nextStrategy.id = i;
                         nextStrategy.stringId = "mole#" + i + ": ";

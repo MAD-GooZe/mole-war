@@ -1,21 +1,15 @@
-/*onmessage = function(parameters){
-    var parametersObject = JSON.parse(parameters);
-    run(new StrategyObject(parametersObject.map, parametersObject.worm, parametersObject.strategy, parametersObject.commands, parametersObject.memory));
-    onmessage = undefined;
-};*/
-
 function _run(parameters){
-    var parametersObject = JSON.parse(parameters);
-    run(new StrategyObject(parametersObject.map, parametersObject.worm, parametersObject.strategy, parametersObject.commands, parametersObject.memory));
+    var strObject = new StrategyObject(parameters.map, parameters.worm, parameters.strategy, parameters.commands, parameters.memory);
+    run(strObject);
+    return strObject.memory;
 }
 
 function run(me){
     try {
         INSERT_STRATEGY_CODE_HERE;
     } catch (err){
-        console.log("Error: "+ err.message);
+        saveToLog("Error: "+ err.message);
     }
-    console.log(JSON.stringify(me.memory));
 }
 
 
@@ -24,34 +18,32 @@ var StrategyObject = function(map, worm, strategy, strategyCommands, lastMemory)
 
     self.memory = lastMemory;
 
-    self.say = function(){
-        console.log.apply(console, arguments);
-    };
+    self.say = saveToLog;
 
     self.moveUp = function() {
-        console.log("@" + strategyCommands.up);
+        saveToLog("@" + strategyCommands.up);
     };
     self.moveDown = function() {
-        console.log("@" + strategyCommands.down);
+        saveToLog("@" + strategyCommands.down);
     };
     self.moveLeft = function() {
-        console.log("@" + strategyCommands.left);
+        saveToLog("@" + strategyCommands.left);
     };
     self.moveRight = function() {
-        console.log("@" + strategyCommands.right);
+        saveToLog("@" + strategyCommands.right);
     };
 
     self.hitUp = function() {
-        console.log("@" + strategyCommands.hitUp);
+        saveToLog("@" + strategyCommands.hitUp);
     };
     self.hitDown = function() {
-        console.log("@" + strategyCommands.hitDown);
+        saveToLog("@" + strategyCommands.hitDown);
     };
     self.hitLeft = function() {
-        console.log("@" + strategyCommands.hitLeft);
+        saveToLog("@" + strategyCommands.hitLeft);
     };
     self.hitRight = function() {
-        console.log("@" + strategyCommands.hitRight);
+        saveToLog("@" + strategyCommands.hitRight);
     };
 
     var whatIs = function(cellX, cellY){
@@ -101,7 +93,7 @@ var StrategyObject = function(map, worm, strategy, strategyCommands, lastMemory)
     };
 
     self.eat = function (){
-        console.log("@" + strategyCommands.eat);
+        saveToLog("@" + strategyCommands.eat);
     };
 
     self.move = function(direction){
