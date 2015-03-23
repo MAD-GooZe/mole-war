@@ -22,7 +22,7 @@ var defaultStrategies = {
     "idiot": "./default_strategies/idiot.js",
     "idle": "./default_strategies/idle.js",
     "clever": "./default_strategies/clever.js",
-    "user": "./mole.js"
+    "user": "../mole.js"
 };
 
 for (var i = 0; i < options.strategies.length; i++){
